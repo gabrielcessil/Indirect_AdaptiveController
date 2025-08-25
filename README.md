@@ -123,17 +123,19 @@ $$
 C(z) = \frac{\lambda N_c(z)}{D_c(z)}
 $$
 
-Pole-zero cancellation gives:
+To cancel the plant's poles, the controller can be set as:
 
 $$
 c_2 = \gamma, \quad c_1 = \beta, \quad c_0 = 1
 $$
 
-Closed-loop system:
+The resulting closed-loop system is:
 
 $$
 G_{mf}(z) = \frac{\lambda \alpha}{z^2 - z + \lambda \alpha}
 $$
+
+The controller is designed based on the estimated model of the plant. As the estimation improves, the observed closed-loop response approaches the expected one.
 
 ------------------------------------------------------------------------
 
