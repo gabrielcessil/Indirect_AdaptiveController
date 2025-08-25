@@ -10,12 +10,12 @@ and the design of a **discrete PID controller** using MATLAB.
 </p>
 
 <p align="center">
+  <img src="Covariance.png" width="45%"/>
   <img src="Residual.png" width="45%"/>
-  <img src="ResidualHistogram.png" width="45%"/>
 </p>
 
 <p align="center">
-  <img src="Covariance.png" width="45%"/>
+    <img src="ResidualHistogram.png" width="45%"/>
 </p>
 
 
