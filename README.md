@@ -139,7 +139,7 @@ The controller is designed based on the estimated model of the plant. As the est
 
 ------------------------------------------------------------------------
 
-### 📌 Pole Placement Strategies
+### 📌 Pole Placement Strategies and Close-Loop behavior design
 
 When designing the closed-loop system
 
@@ -150,7 +150,7 @@ $$
 we want to choose the parameter $\lambda$ such that the closed-loop poles are placed at desired locations.  
 There are **two main approaches**, depending on whether the poles are chosen as complex conjugates or as distinct real poles:
 
----
+
 
 #### 1. Complex Conjugate Poles (Oscillatory Response)
 
