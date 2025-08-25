@@ -109,6 +109,32 @@ $$
 C(z) = \frac{\lambda (c_2^* z^{-2} + c_1^* z^{-1} + c_0^*)}{1 - z^{-1}}
 $$
 
+## 📌 Pole-Zero Cancellation Design
+
+Givne the plant as:
+
+$$
+P(z) = \frac{\alpha}{z^2 + \beta z + \gamma}
+$$
+
+and the controller:
+
+$$
+C(z) = \frac{\lambda N_c(z)}{D_c(z)}
+$$
+
+Pole-zero cancellation gives:
+
+$$
+c_2 = \gamma, \quad c_1 = \beta, \quad c_0 = 1
+$$
+
+Closed-loop system:
+
+$$
+G_{mf}(z) = \frac{\lambda \alpha}{z^2 - z + \lambda \alpha}
+$$
+
 ------------------------------------------------------------------------
 
 ### 📌 Pole Placement Strategies
