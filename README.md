@@ -251,7 +251,7 @@ $$
 
 ## 📌 MATLAB Implementation Overview
 
-The MATLAB code provided simulates a Buck Converter controlled with a discrete PID, while performing online parameter estimation. The main steps are:
+The MATLAB code provided simulates a Buck Converter controlled with a discrete PID, while performing online parameter estimation. The plant simulation is performed using the function `simu_buck_linear`, which is an encrypted function provided as an **exercise in the "Identification of Dynamic Systems" classes** of the **PPGESE (Postgraduate Program in Embedded and Electronic Systems) at Universidade Federal de Santa Catarina (UFSC)**. This function models the Buck Converter dynamics, allowing students to focus on controller design and parameter estimation without seeing the internal plant equations.
 
 1. **Simulation Setup**
    - Define total simulation time (`simu_Time`) and sampling time (`Tsamp`).
