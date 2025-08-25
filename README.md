@@ -111,38 +111,93 @@ $$
 
 ------------------------------------------------------------------------
 
-## 📌 Pole-Zero Cancellation Design
+### 📌 Pole Placement Strategies
 
-Plant:
-
-$$
-P(z) = \frac{\alpha}{z^2 + \beta z + \gamma}
-$$
-
-Controller:
+When designing the closed-loop system
 
 $$
-C(z) = \frac{\lambda N_c(z)}{D_c(z)}
+G_{mf}(z) = \frac{\lambda \alpha}{z^2 - z + \lambda \alpha},
 $$
 
-Pole-zero cancellation gives:
+we want to choose the parameter $\lambda$ such that the closed-loop poles are placed at desired locations.  
+There are **two main approaches**, depending on whether the poles are chosen as complex conjugates or as distinct real poles:
+
+---
+
+#### 1. Complex Conjugate Poles (Oscillatory Response)
+
+If we want oscillatory behavior, the poles are set as complex conjugates:
 
 $$
-c_2 = \gamma, \quad c_1 = \beta, \quad c_0 = 1
+\begin{cases}
+z_1 = A + Bi \\
+z_2 = A - Bi
+\end{cases}
 $$
 
-Closed-loop system:
+Substituting into the closed-loop polynomial:
 
 $$
-G_{mf}(z) = \frac{\lambda \alpha}{z^2 - z + \lambda \alpha}
+(z - z_1)(z - z_2) = z^2 - 2Az + (A^2 + B^2)
 $$
 
-### Pole placement strategies:
+Matching coefficients with:
 
--   **Complex conjugates**:\
-    Real part fixed $A=0.5$, imaginary part tuned by $\lambda$.
--   **Real poles**:\
-    $A_1+A_2 = 1$, $A_1 A_2 = \lambda$.
+$$
+z^2 - z + \lambda \alpha,
+$$
+
+we obtain the conditions:
+
+$$
+A = 0.5, \quad \lambda = \frac{\sqrt{0.25 + B^2}}{\alpha}.
+$$
+
+👉 Interpretation:  
+- The **real part** of the poles is fixed at $0.5$, which determines the decay rate.  
+- The **imaginary part** $B$ adjusts the oscillation frequency.  
+- The gain $\lambda$ is chosen based on the desired oscillatory dynamics.  
+
+---
+
+#### 2. Real Poles (Non-oscillatory Response)
+
+If we prefer a purely exponential (non-oscillatory) closed-loop response, we place the poles at two distinct real locations:
+
+$$
+\begin{cases}
+z_1 = A_1 \\
+z_2 = A_2
+\end{cases}
+$$
+
+so the polynomial is:
+
+$$
+(z - A_1)(z - A_2) = z^2 - (A_1 + A_2)z + A_1 A_2.
+$$
+
+Comparing with:
+
+$$
+z^2 - z + \lambda \alpha,
+$$
+
+the conditions are:
+
+$$
+A_1 + A_2 = 1, \quad A_1 A_2 = \lambda \alpha.
+$$
+
+👉 Interpretation:  
+- The **sum of the poles** is always $1$, fixing their average location.  
+- The **product of the poles** depends on $\lambda$, which directly shapes the stability and speed of convergence.  
+- Choosing $A_1$ and $A_2$ close together yields slower but smoother dynamics, while separating them yields faster but potentially less balanced dynamics.  
+
+---
+
+This way, you can select **oscillatory** (complex) or **non-oscillatory** (real) dynamics depending on your control objective, and tune $\lambda$ accordingly.
+
 
 ------------------------------------------------------------------------
 
