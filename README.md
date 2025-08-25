@@ -302,7 +302,7 @@ The MATLAB code provided simulates a Buck Converter controlled with a discrete P
    - `get_plant_params` – Extracts Vin, L, R from continuous parameters.
    - `get_Phi` – Builds the regressor vector for parametric prediction.
    - `sim_buck_linear` – Simulates discrete-time Buck converter linear model.
-   - Important: These functions modularize the code, making it easy to modify or extend.
+   - Important: These functions modularize the code, making it easy to modify or extend for other plants and adaptive control strategies. 
 
 **Key Highlights:**
 - The code demonstrates a **closed-loop system** with both **control** and **online parameter estimation**.
