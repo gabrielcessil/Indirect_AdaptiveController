@@ -4,6 +4,21 @@ This repository provides the **continuous and discrete modeling** of a
 **Buck Converter**, the derivation of its **parametric discrete model**,
 and the design of a **discrete PID controller** using MATLAB.
 
+<p align="center">
+  <img src="TimeResponse.png" width="45%"/>
+  <img src="ParameterEvolution.png" width="45%"/>
+</p>
+
+<p align="center">
+  <img src="Residual.png" width="45%"/>
+  <img src="ResidualHistogram.png" width="45%"/>
+</p>
+
+<p align="center">
+  <img src="Covariance.png" width="45%"/>
+</p>
+
+
 Mathematical derivations are based on control theory, while MATLAB code
 is provided for simulation and implementation.
 
