@@ -5,7 +5,7 @@ This repository provides the **continuous and discrete modeling** of a
 and the design of a **discrete PID controller** using MATLAB.
 
 <p align="center">
-  <img src="TimeResponse.png" width="45%"/>
+  <img src="TimeRespose.png" width="45%"/>
   <img src="ParameterEvolution.png" width="45%"/>
 </p>
 
