@@ -249,66 +249,64 @@ $$
 
 ------------------------------------------------------------------------
 
-## 📌 MATLAB Implementation
+## 📌 MATLAB Implementation Overview
 
-### Time Vector
+The MATLAB code provided simulates a Buck Converter controlled with a discrete PID, while performing online parameter estimation. The main steps are:
 
-``` matlab
-n_timesteps = 1000;
-Tsamp = 1e-3;
-t = (0:n_timesteps-1)*Tsamp;
-```
+1. **Simulation Setup**
+   - Define total simulation time (`simu_Time`) and sampling time (`Tsamp`).
+   - Compute number of timesteps and initialize the time vector.
 
-### Plant Parameters
+2. **Controller Setup**
+   - Define desired closed-loop poles (`A1`, `A2`) for pole placement.
+   - Compute initial tunable gain `lambda = A1*A2`.
+   - Important: This sets the starting behavior of the PID controller.
 
-``` matlab
-Vin = 12;
-L = 1e-3;
-C = 100e-6;
-R = 10;
+3. **Initial System Estimation**
+   - Initialize plant parameters (`vin_0`, `R_0`, `L_0`, `C_0`) and compute initial discrete model (`theta`) using `get_theta_fromSys`.
+   - Initialize the covariance matrix `P` for recursive estimation.
+   - Important: Correct initialization ensures stable convergence of the estimator.
 
-wn = sqrt(1/(L*C));
-zeta = sqrt(L*C)/(2*R*C);
-K = Vin;
-```
+4. **Buffers and Plant Initialization**
+   - Prepare history buffers for outputs (`y_buffer`), control inputs (`u_buffer`), and reference signals (`ref_buffer`).
+   - Initialize plant states, e.g., inductor current `iL` and initial voltage `v0`.
+   - Important: Buffers are used to handle past samples required by the discrete parametric model.
 
-### Discrete Model Coefficients
+5. **Main Simulation Loop**
+   - For each timestep:
+     - Generate reference signal with `get_reference`.
+     - Compute controller parameters using `get_controller`.
+     - Compute control input via `get_control_signal`.
+     - Simulate plant using `sim_buck_linear`.
+     - Update buffers with new measurements and control input.
+     - **Parameter Estimation:** Update `theta` and covariance `P` using `update_theta_P` (only during training).
+     - Compute predicted output `y_pred_evolution` and residuals `y_resi_evolution`.
+     - Convert discrete parameters back to continuous plant parameters for monitoring (`get_Cont_fromTheta`, `get_plant_params`).
+   - Important: This loop integrates control, plant simulation, and online parameter estimation in real-time.
 
-``` matlab
-alpha = K * wn^2 * Tsamp^2;
-beta  = 2*zeta*wn*Tsamp - 2;
-gamma = wn^2*Tsamp^2 - 2*zeta*wn*Tsamp + 1;
-```
+6. **Visualization**
+   - **Figure 1:** System output vs reference and control input.
+   - **Figure 2:** Normalized evolution of estimated parameters (`theta`) and system parameters (Vin, L, R).
+   - **Figure 3:** Estimation residuals and their FFT for frequency analysis.
+   - **Figure 4:** Histogram comparing residuals during training vs validation.
+   - **Figure 5:** Trace of the covariance matrix over time.
+   - Important: Visualizations allow verifying controller performance, estimator convergence, and signal quality.
 
-### Simulation Loop
+7. **Helper Functions**
+   - `get_reference` – Generates step or ramp reference signals.
+   - `update_theta_P` – Updates model parameters recursively (RLS-like).
+   - `get_controller` – Computes PID coefficients from estimated parameters.
+   - `get_control_signal` – Computes control action using PID law and history buffers.
+   - `get_theta_fromSys` – Converts initial plant parameters into discrete model form.
+   - `get_Cont_fromTheta` – Converts discrete parameters to continuous plant representation.
+   - `get_plant_params` – Extracts Vin, L, R from continuous parameters.
+   - `get_Phi` – Builds the regressor vector for parametric prediction.
+   - `sim_buck_linear` – Simulates discrete-time Buck converter linear model.
+   - Important: These functions modularize the code, making it easy to modify or extend.
 
-``` matlab
-% Preallocate
-y = zeros(1,n_timesteps);
-u = ones(1,n_timesteps); % step input
+**Key Highlights:**
+- The code demonstrates a **closed-loop system** with both **control** and **online parameter estimation**.
+- Buffers and regressor vectors are critical for handling the discrete-time parametric model.
+- The estimation stops updating during validation, allowing comparison of predicted vs actual behavior.
+- Pole placement and `lambda` tuning control the **dynamic response** of the closed-loop system.
 
-for k = 3:n_timesteps
-    y(k) = -beta*y(k-1) - gamma*y(k-2) + alpha*u(k-2);
-end
-
-plot(t,y)
-xlabel('Time (s)'); ylabel('Output');
-grid on;
-```
-
-------------------------------------------------------------------------
-
-## 📌 Summary
-
--   Derived **continuous Buck model**\
--   Discretized via **Euler Explicit**\
--   Built **parametric model for estimation**\
--   Designed a **discrete PID controller with pole-zero cancellation**\
--   Extended to **ARMAX modeling**\
--   Provided **MATLAB code** for simulation
-
-------------------------------------------------------------------------
-
-## 📜 License
-
-MIT License. Free to use and modify.
